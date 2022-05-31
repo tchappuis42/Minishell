@@ -40,12 +40,14 @@ int			redirection_files(t_command *cmd);
 void		manage_here_doc(t_command **all_commands);
 void 		manage_node_execution(t_tree *root, t_env *env);
 void		child(t_tree *main_pipe, t_tree *sub_node, int side, t_env *env);
-int			execute_cmd(t_tree *node, t_env *env);
+int			execute_cmd(t_tree *node, t_env *env, int type);
 void		ft_pwd(t_command *cmd);
 void		ft_exit(t_command *cmd);
 void		ft_cd(t_command *cmd, t_env *env);
 void		ft_echo(t_command *cmd);
 int			base_builtin(char **str, t_env *env);
 void		ft_lastcmd(int ok, t_env *env);
+int			pipe_base_builtin(t_tree *node, t_env *env);
+char		*replace_dollar(char *args, t_env *env, int exit_s);
 
 #endif
