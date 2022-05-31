@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/27 13:46:04 by tweimer           #+#    #+#             */
+/*   Updated: 2022/05/31 17:24:56 by tchappui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execution/execution.h"
 
 void	delete_quotes(t_token *actual)
@@ -29,8 +41,46 @@ int	manage_quotes(t_group *token_group)
 	return (OK);
 }
 
+int		chr_dollar(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1] != 0)
+			return (YES);
+		i++;
+	}
+	return (NO);
+}
+
+void	remplace_content(t_group *all_token)
+{
+	t_token *actual;
+
+	if (all_token == NULL)
+		return ;
+	actual = all_token->first;
+	while (actual != NULL)
+	{
+		if (actual->word[0] != '\'')
+		{
+			while (chr_dollar(actual->word) == YES)
+			{
+				actual->word = replace_dollar(actual->word, g_data.env, g_data.exit_status);
+				if (actual->word == NULL)
+					break ;
+			}
+		}
+		//printf("word=%s\n", actual->word);
+		actual = actual->next;
+	}
+}
+
 int	expansion_arguments(t_group *token_group)
 {
+	remplace_content(token_group);
 	if (manage_quotes(token_group) == ERROR)
 		return (ERROR);
 	return (OK);

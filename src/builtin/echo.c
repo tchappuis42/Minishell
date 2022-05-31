@@ -1,4 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/27 13:47:30 by tweimer           #+#    #+#             */
+/*   Updated: 2022/05/31 13:39:36 by tchappui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+static char	ft_option(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (str[0] == '-' && str[1] == 'n')
+	{
+		while (str[i] == 'n')
+		{
+			i++;
+			if (str[i] == 0)
+				return (MATCH);
+		}
+	}
+	return (1);
+}
 
 char	*new_buffer(t_command *cmd, int i, char *buffer, int option)
 {
@@ -6,9 +35,9 @@ char	*new_buffer(t_command *cmd, int i, char *buffer, int option)
 		buffer = ft_strdup(cmd->args[i]);
 	else
 		buffer = ft_strjoin_custom(buffer, cmd->args[i]);
-	if (cmd->args[i + 1] != NULL)
+	if (cmd->args[i + 1] != NULL && cmd->args[i + 1][0] != 0)
 		buffer = ft_strjoin_custom(buffer, " ");
-	else if (option == NO)
+	else if (option == NO && cmd->args[i + 1] == 0)
 		buffer = ft_strjoin_custom(buffer, "\n");
 	return (buffer);
 }
@@ -24,7 +53,7 @@ void	ft_echo(t_command *cmd)
 	buffer = NULL;
 	while (cmd->args[i] != NULL)
 	{
-		if (ft_strcmp(cmd->args[i], OPTION_ECHO) == MATCH)
+		if (ft_option(cmd->args[i]) == MATCH)
 			option = YES;
 		else
 		{
@@ -34,7 +63,7 @@ void	ft_echo(t_command *cmd)
 	}
 	if (buffer == NULL && option == NO)
 		buffer = ft_strdup("\n");
-	print_to_outfiles(buffer, cmd);
+	write(1, buffer, ft_strlen(buffer));
 	free(buffer);
 	buffer = NULL;
 }

@@ -2,11 +2,13 @@
 #include "execution/command.h"
 #include "environment/env.h"
 
+
 int	manage_commands(t_group *all_tokens, t_env *env)
 {
 	t_command	**all_commands;
 
 	all_commands = shell_commands(all_tokens);
+	signal(SIGCHLD, reap_child);
 	shell_execution(all_tokens, all_commands, env);
 	if (all_commands != NULL)
 	{
@@ -45,12 +47,14 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_env	env;
 
+	
 	(void)argv;
-	env.list = NULL;
-	env.temp = NULL;
 	if (argc == 1)
 	{
+		env.list = NULL;
+		env.temp = NULL;
 		ft_env(&env.list, envp);
+		g_data.env = &env;
 		init_terminal();
 		while (RUNNING)
 		{
@@ -60,3 +64,46 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	return (0);
 }
+/*
+void	manage_user_input_test(t_env *env, char *input)
+{
+	//char	*input;
+
+	//input = get_user_input();
+	manage_tokens(input, env);
+	//free(input);
+	//input = NULL;
+}
+
+int launch(char *input, t_env *env)
+{
+	manage_user_input_test(env, input);
+	return (1);
+}
+
+int main(int argc, char **argv, char *envp[])
+{
+  	t_env	env;
+
+	env.list = NULL;
+	env.temp = NULL;
+	ft_env(&env.list, envp);
+	g_envp = &env;
+	if (argc == 1)
+	{
+		init_terminal();
+		while (RUNNING)
+		{
+			manage_user_input(&env);
+		}
+		return (1);
+	}
+  else if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
+	{
+			init_terminal();
+			launch(argv[2], &env);
+			exit(0);
+	}
+  return (0);
+  }
+*/

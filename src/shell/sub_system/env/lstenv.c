@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lstenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 18:19:12 by tchappui          #+#    #+#             */
-/*   Updated: 2022/05/19 18:22:23 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/05/22 21:42:07 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,11 @@ void	printlst(t_list *lst)
 
 void	printenv(t_command *cmd, t_env *env, t_list *lst)
 {
+	(void)cmd;
 	ft_addenv(env, env->list, "_=/Users/bin/env");
 	while (lst != NULL)
 	{
-		print_to_outfiles(lst->content, cmd);
+		write(1,lst->content, ft_strlen(lst->content));
 		write(1, "\n", 1);
 		lst = lst->next;
 	}

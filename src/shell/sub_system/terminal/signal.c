@@ -1,43 +1,64 @@
-#include "sub_system/terminal.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/27 13:44:14 by tweimer           #+#    #+#             */
+/*   Updated: 2022/05/31 17:24:24 by tchappui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	signal_handler(int signal)
+# include "sub_system/terminal.h"
+# include "minishell.h"
+
+void new_prompt(int sig)
 {
-	if (signal == SIGINT)
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 1);
+	rl_on_new_line();
+	rl_redisplay();
+
+}
+void reap_child(int sig)
+{
+	(void)sig;
+    int status;
+    waitpid(-1, &status, WNOHANG);
+}
+
+void	signal_here_document(int signal)
+{
+	(void)signal;
+	g_data.exit_status = 130;
+	write(1, "\n", 1);
+	exit(130);
+}
+
+void no_prompt(int sig)
+{
+	(void)sig;
+	write(1, "\0", 1);
+}
+
+void exit_minishell(int sig)
+{
+	(void)sig;
+	exit(EXIT_SUCCESS);
+}
+
+void handler_child(int sig)
+{
+	if (sig == SIGINT)
 	{
-		rl_on_new_line();
-		write(2, "\n", 1);
-		//printf("coucou\n");
-		rl_replace_line("", 1);
-		rl_redisplay();
-		//kill(0, SIGQUIT);
-/* 		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay(); */
+		exit(0);
 	}
-	else if (signal == SIGTERM)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-		exit(EXIT_SUCCESS);
-	}
-	else if (signal == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-		return ;
-	}
-	return ;
 }
 
 void	block_signals_from_keyboard(void)
 {
-	t_sigaction	sa;
-
-	sa.sa_handler = &signal_handler;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGTERM, &sa, NULL);
+	signal(SIGINT, new_prompt);
 	signal(SIGQUIT, SIG_IGN);
 }

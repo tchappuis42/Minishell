@@ -6,13 +6,16 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:54:19 by tchappui          #+#    #+#             */
-/*   Updated: 2022/05/19 18:38:18 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/05/31 17:22:32 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environment/env.h"
 #include "execution/execution.h"
+#include <string.h>
 
+void no_prompt(int sig);
+void new_prompt(int sig);
 static char	*find_path3(t_list *list)
 {
 	char	*rtn;
@@ -82,39 +85,108 @@ static char	*find_path(t_list *list, char *arg)
 	return (NULL);
 }
 
+char **env_tab(t_env *env)
+{
+	t_list *actual;
+	char **envp;
+	int i;
+
+	i = 0;
+	envp = malloc(sizeof(char *) * (env->envsize + 1));
+	actual = env->list;
+	while (actual->next != NULL)
+	{
+		envp[i] = ft_strdup(actual->content);
+		actual = actual->next;
+		i++;
+	}
+	return (envp);
+}
+
+int pipe_base_builtin(t_tree *node, t_env *env)
+{
+	char	*cmd;
+	pid_t	out;
+	int		status;
+
+	cmd = NULL;
+	cmd = find_path(env->list, node->cmd->args[0]);
+	if (cmd != NULL) // && n'est pas un pipe
+	{
+		out = fork();
+	 // creer un nouveau process
+		if (out == 0)
+		{
+			signal(SIGINT, handler_child);
+			if (execve(cmd, node->cmd->args, NULL) == -1) // si reussi quitte le process
+			{
+				if (cmd != NULL)
+					free (cmd);
+				cmd = NULL;
+				exit(1);
+			}
+			exit(0);
+		}
+		else
+		{
+			signal(SIGINT, no_prompt);
+			waitpid(out, &status, 0);
+			signal(SIGINT, new_prompt);
+			free (cmd);
+			cmd = NULL;
+			return (0);
+		}
+	}
+	else
+	{
+		printf("Minishell: %s: command not found\n", node->cmd->args[0]);
+		g_data.exit_status = 127;
+		return (0);
+	}
+	return (0);
+}
+
 int	base_builtin(char **str, t_env *env) //execute les commande de base
 {
 	char	*cmd;
 	pid_t	out;
-	int		ret;
 	int		status;
 
 	cmd = NULL;
-	out = fork();
-	ret = 0;
-	if (out == 0)
+	cmd = find_path(env->list, str[0]);
+	if (cmd != NULL) // && n'est pas un pipe
 	{
-		cmd = find_path(env->list, str[0]);
-		if (!cmd)
+		out = fork();
+	 // creer un nouveau process
+		if (out == 0)
 		{
-			printf("Minishell: %s: command not found\n", str[0]);
+			signal(SIGINT, handler_child);
+			if (execve(cmd, str, NULL) == -1) // si reussi quitte le process
+			{
+				if (cmd != NULL)
+					free (cmd);
+				cmd = NULL;
+				exit(1);
+			}
 			exit(0);
 		}
-		if (execve(cmd, str, NULL) == -1)
+		else
 		{
-			if (cmd != NULL)
-				free (cmd);
+			signal(SIGINT, no_prompt);
+			waitpid(out, &status, 0);
+			
+			signal(SIGINT, new_prompt);
+			free (cmd);
 			cmd = NULL;
-			ret = 1;
-			exit(0);
+			g_data.exit_status = 0;
+			return (0);
 		}
-		free (cmd);
-		cmd = NULL;
-		ft_addenv(env, env->list, ft_strcat("_=", str[0]));
 	}
 	else
-		waitpid(out, &status, WCONTINUED);
-	if (ret == 0)
-		return (8);
+	{
+		printf("Minishell: %s: command not found\n", str[0]);
+		g_data.exit_status = 127;
+		return (0);
+	}
 	return (0);
 }

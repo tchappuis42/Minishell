@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipeline_execution.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/27 13:46:28 by tweimer           #+#    #+#             */
+/*   Updated: 2022/05/27 13:50:12 by tweimer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execution/execution.h"
+#include "minishell.h"
 
 void	redirect_input(int *fd)
 {
@@ -60,11 +73,13 @@ void	manage_output(t_tree *main_pipe, t_tree *sub_node, int side)
 
 void	child(t_tree *main_pipe, t_tree *sub_node, int side, t_env *env)
 {
+	signal(SIGCHLD, reap_child);
+	signal(SIGINT, no_prompt);
 	if (side == LEFT)
 	{
 		manage_input(main_pipe, sub_node, side);
 		manage_output(main_pipe, sub_node, side);
-		execute_cmd(sub_node, env);
+		execute_cmd(sub_node, env, PIPE);
 	}
 	else if (side == RIGHT)
 	{
@@ -76,8 +91,8 @@ void	child(t_tree *main_pipe, t_tree *sub_node, int side, t_env *env)
 		{
 			manage_input(main_pipe, sub_node, side);
 			manage_output(main_pipe, sub_node, side);
-			execute_cmd(sub_node, env);
+			execute_cmd(sub_node, env, PIPE);
 		}
 	}
-	return ;
+	exit(0);
 }
