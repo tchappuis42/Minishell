@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:45:38 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/27 15:22:34 by tweimer          ###   ########.fr       */
+/*   Updated: 2022/06/05 18:27:26 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ t_command	**create_commands(t_group *token_group)
 		i++;
 	}
 	all_commands[i] = NULL;
-
 	handle_here_doc(all_commands);
 	return (all_commands);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_redirection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:45:22 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/27 15:47:33 by tweimer          ###   ########.fr       */
+/*   Updated: 2022/06/05 20:15:56 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_redirection	*init_redirection(void)
 	new = malloc(sizeof(t_redirection));
 	if (new == NULL)
 	{
-		write_error(NULL, NULL);
+		write_error(NULL, NULL, NULL);
 		exit(EXIT_FAILURE);
 	}
 	new->fd = 0;

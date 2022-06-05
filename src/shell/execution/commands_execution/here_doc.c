@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:46:43 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/27 15:58:48 by tweimer          ###   ########.fr       */
+/*   Updated: 2022/06/05 20:30:15 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution/execution.h"
-
 
 int	create_temporary_file(void)
 {
@@ -20,11 +19,11 @@ int	create_temporary_file(void)
 
 	fd = open(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd == -1)
-		write_error(NULL, NULL);
+		write_error(NULL, NULL, NULL);
 	return (fd);
 }
 
-char *pop_here_doc(void)
+char	*pop_here_doc(void)
 {
 	t_here_doc	*tmp;
 	char		*content;
@@ -47,7 +46,7 @@ char *pop_here_doc(void)
 	return (content);
 }
 
-int execute_here_doc(char *str)
+int	execute_here_doc(char *str)
 {
 	int		tmp_fd;
 	char	*content;
@@ -66,11 +65,11 @@ int execute_here_doc(char *str)
 	return (tmp_fd);
 }
 
-char *get_string(int fd)
+char	*get_string(int fd)
 {
-	int ret;
-	char *buffer;
-	char tmp[2];
+	int		ret;
+	char	*buffer;
+	char	tmp[2];
 
 	buffer = NULL;
 	while (1)
@@ -78,7 +77,7 @@ char *get_string(int fd)
 		ret = read(fd, tmp, 1);
 		tmp[ret] = '\0';
 		if (ret <= 0)
-			break;
+			break ;
 		if (buffer == NULL)
 		{
 			buffer = ft_strdup(tmp);
@@ -88,43 +87,42 @@ char *get_string(int fd)
 			buffer = ft_strjoin_custom(buffer, tmp);
 		}
 		if (ret <= 0)
-			break;
+			break ;
 	}
 	return (buffer);
 }
 
-void here_doc_child(int fd, char *delimiter)
+void	here_doc_child(int fd, char *delimiter)
 {
-	char *input;
+	char	*input;
 
-		while(1)
+	while (1)
+	{
+		input = readline("> ");
+		if (ft_strcmp(input, delimiter) == MATCH)
 		{
-			input = readline("> ");
-			if (ft_strcmp(input, delimiter) == MATCH)
-			{
-				close(fd);
-				free(input);
-				input = NULL;
-				break ;
-			}
-			else
-			{
-				ft_putendl_fd(input, fd);
-			}
+			close(fd);
 			free(input);
 			input = NULL;
+			break ;
 		}
-		exit(0);
+		else
+		{
+			ft_putendl_fd(input, fd);
+		}
+		free(input);
+		input = NULL;
+	}
+	exit(0);
 }
 
-char *get_content(char *delimiter)
+char	*get_content(char *delimiter)
 {
-	int pid;
-	int status;
-	int pipefd[2];
-	char *rtn;
+	int		pid;
+	int		status;
+	int		pipefd[2];
+	char	*rtn;
 
-	
 	pipe(pipefd);
 	pid = fork ();
 	if (pid == 0)
@@ -134,7 +132,6 @@ char *get_content(char *delimiter)
 		here_doc_child(pipefd[1], delimiter);
 	}
 	signal(SIGINT, SIG_IGN);
-	//signal(SIGQUIT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	close(pipefd[1]);
 	rtn = get_string(pipefd[0]);
@@ -143,10 +140,10 @@ char *get_content(char *delimiter)
 	return (rtn);
 }
 
-void handle_here_doc(t_command **all_commands)
+void	handle_here_doc(t_command **all_commands)
 {
 	t_command	*actual;
-	int i;
+	int			i;
 
 	i = 0;
 	if (all_commands == NULL || all_commands[0] == NULL)
@@ -156,7 +153,7 @@ void handle_here_doc(t_command **all_commands)
 		actual = all_commands[i];
 		if (actual->input != NULL && actual->input->type == DLESS)
 		{
-			actual->input->content =  get_content(actual->input->file_name);
+			actual->input->content = get_content(actual->input->file_name);
 		}
 		i++;
 	}

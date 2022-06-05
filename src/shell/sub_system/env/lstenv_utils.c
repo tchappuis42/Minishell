@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   lstenv_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/03 14:17:15 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/05 21:42:35 by tchappui         ###   ########.fr       */
+/*   Created: 2022/06/05 21:38:54 by tchappui          #+#    #+#             */
+/*   Updated: 2022/06/05 21:40:10 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "environment/env.h"
+#include <stdlib.h>
 
-int	ft_tablen(char **s)
+void	printlst(t_list *lst)
 {
-	int	i;
+	while (lst != NULL)
+	{
+		printf("%s\n", lst->content);
+		lst = lst->next;
+	}
+}
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+int	ft_lstlen(t_list *lst)
+{
+	int	len;
+
+	len = 0;
+	while (lst != NULL)
+	{
+		len++;
+		lst = lst->next;
+	}
+	return (len);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_execution.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:46:21 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/27 15:52:11 by tweimer          ###   ########.fr       */
+/*   Updated: 2022/06/05 20:54:32 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,20 @@ void	replace_input(t_command *cmd)
 
 	if (cmd->input == NULL)
 		return ;
-	//write(2, "Enter_INPUT\n", 12);
 	actual = cmd->input;
 	while (actual != NULL)
 	{
 		if (actual->type == LESS)
 		{
-			actual->fd = open(actual->file_name, O_RDONLY );
+			actual->fd = open(actual->file_name, O_RDONLY);
 			dup2(actual->fd, STDIN_FILENO);
 			close(actual->fd);
 		}
 		else if (actual->type == DLESS)
 		{
-			//write(2, "Enter_HERE_DOC\n", 15);
 			actual->fd = execute_here_doc(actual->content);
 			close(actual->fd);
-			actual->fd = open(TMP_FILE, O_RDONLY );
+			actual->fd = open(TMP_FILE, O_RDONLY);
 			dup2(actual->fd, STDIN_FILENO);
 			close(actual->fd);
 			unlink(TMP_FILE);
@@ -64,18 +62,18 @@ int	redirection_files(t_command *cmd)
 	}
 	else if (last->type == MORE)
 	{
-		last->fd = open(last->file_name, O_RDWR | O_TRUNC | O_CREAT, S_IWUSR | S_IRUSR);
+		last->fd = open(last->file_name, O_RDWR | O_TRUNC | O_CREAT,
+				S_IWUSR | S_IRUSR);
 	}
 	return (last->fd);
 }
 
-void output_redirection(t_command *cmd)
+void	output_redirection(t_command *cmd)
 {
-	int fd;
-	
+	int	fd;
+
 	if (cmd->output == NULL)
 		return ;
-	//write(2, "Enter\n", 6);
 	fd = redirection_files(cmd);
 	if (fd >= 0)
 	{
@@ -84,11 +82,9 @@ void output_redirection(t_command *cmd)
 	}
 }
 
-void input_redirection(t_command *cmd)
+void	input_redirection(t_command *cmd)
 {
-	
 	if (cmd->input == NULL)
 		return ;
-	//write(2, "Enter\n", 6);
 	replace_input(cmd);
 }

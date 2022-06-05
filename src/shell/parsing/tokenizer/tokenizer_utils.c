@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:45:02 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/27 13:45:03 by tweimer          ###   ########.fr       */
+/*   Updated: 2022/06/05 21:28:54 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,12 @@ int	token_ended(char *input, int start_token, int i)
 	quote = is_quoted(input, start_token, i);
 	if (quote == ENDED)
 		return (YES);
+	if (quote == NO && is_quote(input[i + 1]))
+	{
+		if (is_quote(input[i]) == is_quote(input[i + 1]))
+			return (NO);
+		return (YES);
+	}
 	else if (quote == NO && is_quote(input[i]) == NO)
 	{
 		if (is_ifs(input[i + 1]) == YES)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_arguments.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:45:16 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/27 13:45:17 by tweimer          ###   ########.fr       */
+/*   Updated: 2022/06/05 20:15:41 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**init_args(int size)
 	new = malloc(sizeof(char *) * (size + 1));
 	if (new == NULL)
 	{
-		write_error(NULL, NULL);
+		write_error(NULL, NULL, NULL);
 		exit (EXIT_FAILURE);
 	}
 	return (new);

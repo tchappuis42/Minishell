@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:49:34 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/27 13:49:35 by tweimer          ###   ########.fr       */
+/*   Updated: 2022/06/05 22:28:25 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing/parsing.h"
+#include "sub_system/terminal.h"
 
 char	*delete_border_ifs(char *tmp)
 {
@@ -43,6 +44,8 @@ char	*get_user_input(void)
 	tmp = readline("prompt $$ ");
 	if (tmp == NULL)
 	{
+		printf("exit\n");
+		//fonction qui free
 		exit(EXIT_SUCCESS);
 	}
 	add_history(tmp);

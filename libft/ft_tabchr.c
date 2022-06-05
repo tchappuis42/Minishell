@@ -6,7 +6,7 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:26:39 by tchappui          #+#    #+#             */
-/*   Updated: 2022/04/11 14:27:09 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/05 21:42:22 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_tabchr(char **str, char c)
 	while (str[++i] != NULL)
 	{
 		j = 0;
-		while(str[i][j])
+		while (str[i][j])
 		{
 			if (str[i][j] == c)
 				return (1);

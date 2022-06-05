@@ -6,7 +6,7 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:47:49 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/31 13:41:30 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/05 18:06:58 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,18 @@ void	ft_unset(t_env *env, char **args)
 	int	i;
 
 	i = 1;
-	while(args[i] != NULL)
+	while (args[i] != NULL)
 	{
 		if (check_arg_unset(args[i]) == NO)
 		{
-			printf("bash: unset: `%s': not a valid identifier\n", args[i]); // mettre su la sortie d erreur
+			write_error(args[i], "unset: ", UNSET_ERROR);
 			g_data.exit_status = 1;
 		}
 		else
 		{
 			ft_envfree(env->list, args[i]);
 			ft_envfree(env->temp, args[i]);
+			g_data.exit_status = 0;
 		}
 		i++;
 	}

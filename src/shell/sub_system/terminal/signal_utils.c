@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   signal_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/03 14:17:15 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/05 21:42:35 by tchappui         ###   ########.fr       */
+/*   Created: 2022/06/05 16:34:53 by tchappui          #+#    #+#             */
+/*   Updated: 2022/06/05 16:39:07 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "sub_system/terminal.h"
+#include "minishell.h"
 
-int	ft_tablen(char **s)
+void	signal_here_document(int signal)
 {
-	int	i;
+	(void)signal;
+	g_data.exit_status = 1;
+	write(1, "\n", 1);
+	exit(1);
+}
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+void	exit_minishell(int sig)
+{
+	(void)sig;
+	exit(EXIT_SUCCESS);
 }

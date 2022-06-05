@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:44:37 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/27 13:44:38 by tweimer          ###   ########.fr       */
+/*   Updated: 2022/06/05 21:35:26 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	write_error(char *message_extra, char *command)
+void	write_error(char *message_extra, char *command, char *erreur_message)
 {
-	write(STDERR_FILENO, "tsh: ", 5);
+	write(STDERR_FILENO, "bash: ", 6);
 	if (command != NULL)
 		write(STDERR_FILENO, command, ft_strlen(command));
 	if (message_extra != NULL)
@@ -22,7 +22,10 @@ void	write_error(char *message_extra, char *command)
 		write(STDERR_FILENO, message_extra, ft_strlen(message_extra));
 		write(STDERR_FILENO, ": ", 2);
 	}
-	perror(NULL);
+	if (erreur_message != NULL)
+		write(STDERR_FILENO, erreur_message, ft_strlen(erreur_message));
+	else
+		perror(NULL);
 	write(STDERR_FILENO, NEWLINE, 1);
 }
 

@@ -1,15 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/05 16:32:32 by tchappui          #+#    #+#             */
+/*   Updated: 2022/06/05 17:00:11 by tchappui         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "execution/command.h"
 #include "environment/env.h"
 
-
-int	manage_commands(t_group *all_tokens, t_env *env)
+int	manage_commands(t_group *all_tokens)
 {
 	t_command	**all_commands;
 
 	all_commands = shell_commands(all_tokens);
-	signal(SIGCHLD, reap_child);
-	shell_execution(all_tokens, all_commands, env);
+	shell_execution(all_tokens, all_commands);
 	if (all_commands != NULL)
 	{
 		clean_commands(all_commands);
@@ -18,13 +28,13 @@ int	manage_commands(t_group *all_tokens, t_env *env)
 	return (1);
 }
 
-void	manage_tokens(char *input, t_env *env)
+void	manage_tokens(char *input)
 {
 	t_group	*all_tokens;
 
 	all_tokens = tokenizer(input);
 	if (all_tokens != NULL)
-		manage_commands(all_tokens, env);
+		manage_commands(all_tokens);
 	if (all_tokens != NULL)
 	{
 		clean_tokens(all_tokens);
@@ -33,12 +43,12 @@ void	manage_tokens(char *input, t_env *env)
 	}
 }
 
-void	manage_user_input(t_env *env)
+void	manage_user_input(void)
 {
 	char	*input;
 
 	input = get_user_input();
-	manage_tokens(input, env);
+	manage_tokens(input);
 	free(input);
 	input = NULL;
 }
@@ -47,7 +57,6 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_env	env;
 
-	
 	(void)argv;
 	if (argc == 1)
 	{
@@ -58,52 +67,9 @@ int	main(int argc, char *argv[], char *envp[])
 		init_terminal();
 		while (RUNNING)
 		{
-			manage_user_input(&env);
+			manage_user_input();
 		}
 		return (1);
 	}
 	return (0);
 }
-/*
-void	manage_user_input_test(t_env *env, char *input)
-{
-	//char	*input;
-
-	//input = get_user_input();
-	manage_tokens(input, env);
-	//free(input);
-	//input = NULL;
-}
-
-int launch(char *input, t_env *env)
-{
-	manage_user_input_test(env, input);
-	return (1);
-}
-
-int main(int argc, char **argv, char *envp[])
-{
-  	t_env	env;
-
-	env.list = NULL;
-	env.temp = NULL;
-	ft_env(&env.list, envp);
-	g_envp = &env;
-	if (argc == 1)
-	{
-		init_terminal();
-		while (RUNNING)
-		{
-			manage_user_input(&env);
-		}
-		return (1);
-	}
-  else if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
-	{
-			init_terminal();
-			launch(argv[2], &env);
-			exit(0);
-	}
-  return (0);
-  }
-*/

@@ -6,7 +6,7 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:46:04 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/31 17:24:56 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/05 18:28:52 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	manage_quotes(t_group *token_group)
 	return (OK);
 }
 
-int		chr_dollar(char *str)
+int	chr_dollar(char *str)
 {
 	int	i;
 
@@ -57,23 +57,23 @@ int		chr_dollar(char *str)
 
 void	remplace_content(t_group *all_token)
 {
-	t_token *actual;
+	t_token	*actual;
 
-	if (all_token == NULL)
+	if (all_token == NULL || all_token->first == NULL)
 		return ;
 	actual = all_token->first;
 	while (actual != NULL)
 	{
-		if (actual->word[0] != '\'')
+		if (actual->word != NULL && actual->word[0] != '\'')
 		{
 			while (chr_dollar(actual->word) == YES)
 			{
-				actual->word = replace_dollar(actual->word, g_data.env, g_data.exit_status);
+				actual->word = replace_dollar(actual->word, g_data.env,
+						g_data.exit_status);
 				if (actual->word == NULL)
 					break ;
 			}
 		}
-		//printf("word=%s\n", actual->word);
 		actual = actual->next;
 	}
 }

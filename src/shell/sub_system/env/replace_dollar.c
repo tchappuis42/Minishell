@@ -6,7 +6,7 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:07:10 by tchappui          #+#    #+#             */
-/*   Updated: 2022/05/30 14:41:20 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/05 21:36:24 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,7 @@ static char	*ft_replace_dollar(char *arg, int i, t_env *env, int exit_s)
 	ret = NULL;
 	end = ft_end(arg, i + 1);
 	if (arg[i + 1] == '?')
-	{
-		exit_status = ft_itoa(exit_s);
-		retenv = exit_status;
-	}
+		retenv = ft_itoa(exit_s);
 	else
 		retenv = ft_compart(arg + i + 1, env->list, env->temp);
 	arg[i] = 0;

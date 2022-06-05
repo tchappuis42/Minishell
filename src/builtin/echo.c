@@ -6,7 +6,7 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:47:30 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/31 13:39:36 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/05 17:03:04 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,19 @@ void	ft_echo(t_command *cmd)
 	buffer = NULL;
 	while (cmd->args[i] != NULL)
 	{
-		if (ft_option(cmd->args[i]) == MATCH)
+		if (ft_option(cmd->args[i]) == MATCH && buffer == NULL)
 			option = YES;
 		else
-		{
 			buffer = new_buffer(cmd, i, buffer, option);
-		}
 		i++;
 	}
 	if (buffer == NULL && option == NO)
 		buffer = ft_strdup("\n");
-	write(1, buffer, ft_strlen(buffer));
-	free(buffer);
-	buffer = NULL;
+	if (buffer != NULL)
+	{
+		write(1, buffer, ft_strlen(buffer));
+		free(buffer);
+		buffer = NULL;
+	}
+	g_data.exit_status = 0;
 }

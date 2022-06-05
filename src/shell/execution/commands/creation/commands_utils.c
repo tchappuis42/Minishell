@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:45:31 by tweimer           #+#    #+#             */
-/*   Updated: 2022/05/27 15:23:36 by tweimer          ###   ########.fr       */
+/*   Updated: 2022/06/05 20:14:52 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_command	*init_new_cmd(void)
 	cmd = malloc(sizeof(t_command));
 	if (cmd == NULL)
 	{
-		write_error(NULL, NULL);
+		write_error(NULL, NULL, NULL);
 		exit(EXIT_FAILURE);
 	}
 	cmd->args = NULL;
@@ -39,7 +39,7 @@ t_command	**init_all_commands(int nb_command)
 	all_cmd = malloc(sizeof(t_command *) * (nb_command + 1));
 	if (all_cmd == NULL)
 	{
-		write_error(NULL, NULL);
+		write_error(NULL, NULL, NULL);
 		exit(EXIT_FAILURE);
 	}
 	return (all_cmd);
