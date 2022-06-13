@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 18:21:22 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/05 18:26:05 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/06 12:21:29 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	addexport_equal(t_list *list, char *str)
 		if (ft_strdcmp(list->content, str, '=') == 0)
 		{
 			free (list->content);
+			list->content = NULL;
 			list->content = ft_strdup(str);
 			return ;
 		}

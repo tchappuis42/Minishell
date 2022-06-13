@@ -3,49 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:46:43 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 20:30:15 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/07 14:50:07 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution/execution.h"
 
-int	create_temporary_file(void)
-{
-	int	fd;
-
-	fd = open(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd == -1)
-		write_error(NULL, NULL, NULL);
-	return (fd);
-}
-
-char	*pop_here_doc(void)
-{
-	t_here_doc	*tmp;
-	char		*content;
-
-	tmp = NULL;
-	content = NULL;
-	if (g_data.here_doc == NULL)
-		return (NULL);
-	tmp = g_data.here_doc;
-	if (tmp != NULL)
-	{
-		g_data.here_doc = tmp->next;
-		content = ft_strdup(tmp->content);
-		free(tmp->content);
-		free(tmp);
-		tmp = NULL;
-	}
-	else
-		g_data.here_doc = NULL;
-	return (content);
-}
-
+//	During the execution of the here_document we create
+//	a temporary file that will next be used as a normal
+//	redirection of input and then be deleted
 int	execute_here_doc(char *str)
 {
 	int		tmp_fd;
@@ -65,6 +35,7 @@ int	execute_here_doc(char *str)
 	return (tmp_fd);
 }
 
+// Read form the pipe of the child and transform it into a normal string
 char	*get_string(int fd)
 {
 	int		ret;
@@ -116,6 +87,10 @@ void	here_doc_child(int fd, char *delimiter)
 	exit(0);
 }
 
+//	We get the content of the here_document
+//	Because we don't want to write in stdin we create a process
+//	And to recuperate all the things that the child contain we
+//	We need a pipe
 char	*get_content(char *delimiter)
 {
 	int		pid;
@@ -140,6 +115,8 @@ char	*get_content(char *delimiter)
 	return (rtn);
 }
 
+//	When the commands are created we create the content of the heredocs
+//	and we store them in actual->input->content to use them later
 void	handle_here_doc(t_command **all_commands)
 {
 	t_command	*actual;

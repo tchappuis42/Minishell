@@ -6,7 +6,7 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:47:35 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 18:16:04 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/13 14:59:15 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	parse_args(char **args)
 		{
 			write(2, "exit\n", 6);
 			write_error(args[i], "exit: ", EXIT_NUM_ERROR);
-			//fonction free
+			clean_shell();
 			exit(255);
 		}
 		i++;
@@ -52,14 +52,14 @@ void	ft_exit(t_command *cmd)
 	parse_args(cmd->args);
 	if (argc == 1)
 	{
-		//fonction free;
+		clean_shell();
 		write(2, "exit\n", 6);
 		exit(0);
 	}
 	else if (argc == 2)
 	{	
 		g_data.exit_status = ft_atoi(cmd->args[1]);
-		//fonction free;
+		clean_shell();
 		write(2, "exit\n", 6);
 		exit(g_data.exit_status);
 	}

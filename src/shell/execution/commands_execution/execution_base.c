@@ -6,7 +6,7 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:54:19 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/05 20:52:20 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:02:38 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	pipe_base_builtin(t_tree *node)
 	return (0);
 }
 
+//	We create a new process, and execute the commands with
+//	execve
 int	base_builtin(char **str)
 {
 	char	*cmd;
@@ -86,7 +88,6 @@ int	base_builtin(char **str)
 		write_error(str[0], "Minishel: ", CMD_NOT_FOUND);
 		return (1);
 	}
-	free(cmd);
 	block_signals_from_keyboard();
 	return (0);
 }

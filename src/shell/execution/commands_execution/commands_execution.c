@@ -6,7 +6,7 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:46:52 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 22:50:20 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:29:04 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "execution/execution.h"
 #include "environment/env.h"
 
+// check which builtin it is then execute the right function
 void	execute_builtin(t_tree *node, int ok)
 {
 	replace_input(node->cmd);
@@ -30,10 +31,12 @@ void	execute_builtin(t_tree *node, int ok)
 	else if (ok == CMD_UNSET)
 		ft_unset(g_data.env, node->cmd->args);
 	else if (ok == CMD_ENV)
-		printenv(node->cmd, g_data.env, g_data.env->list);
+		printenv(g_data.env->list);
 	ft_lastcmd(ok);
 }
 
+//  The command is not builtin so we check if the type is a pipe or no
+//	and call the right function
 int	execute_not_builtin(t_tree *node, int type, int ok)
 {
 	if (type != PIPE)
@@ -57,6 +60,10 @@ int	execute_not_builtin(t_tree *node, int type, int ok)
 	}
 }
 
+//	the operators have been "executed" so now
+//	1. we execute the redirections
+//	2. if the command is a builtin execute_builtin()
+//	3.if the command is not a builtin execute_not_builtin()
 int	execute_cmd(t_tree *node, int type)
 {
 	int	ok;
@@ -82,11 +89,14 @@ int	execute_cmd(t_tree *node, int type)
 	return (1);
 }
 
+// the commands are now regroup together with the help of a binary tree
+// We will execute the commands.
 void	shell_execution(t_group *all_token, t_command **all_command)
 {
 	t_tree	*root;
 
 	root = binary_tree(all_token, all_command);
+	g_data.binary_tree = root;
 	manage_node_execution(root);
 	clean_tree(root);
 	if (root != NULL)

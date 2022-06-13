@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_redirection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:45:22 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 20:15:56 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/07 14:22:53 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	add_output(t_command *cmd, t_token *actual_token)
 		cmd->output = new;
 }
 
+//	loop around the token and if a token is a redirection
+//	add them in either of new_cmd->input or new_cmd->output
 void	create_redirection(t_token *actual, t_command *new_cmd)
 {
 	while (actual != NULL && token_is_operator(actual->type) == NO)

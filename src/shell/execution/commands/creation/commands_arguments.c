@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_arguments.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:45:16 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 20:15:41 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/07 14:23:37 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	**new_args(t_token *actual, int size)
 	return (args);
 }
 
+// create new_cmd->args that contain the commands and the command's parameters
 void	create_arguments(t_token *start, t_command *new_cmd)
 {
 	int	size;

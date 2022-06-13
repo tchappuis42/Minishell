@@ -6,7 +6,7 @@
 /*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:32:32 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/05 17:00:11 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:33:07 by tchappui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include "execution/command.h"
 #include "environment/env.h"
 
+//	1. Receive the tokens and assemble them into different commands.
+//	2. Begin to execute the commands
+//	3. The commands were executed they aren't needed anymore
 int	manage_commands(t_group *all_tokens)
 {
 	t_command	**all_commands;
@@ -28,6 +31,12 @@ int	manage_commands(t_group *all_tokens)
 	return (1);
 }
 
+// Receive the input (the instructions) from the previous function
+// 1.	Parse the input and transform them into tokens,
+//		to see more about tokens go to "tokens.h"
+// 2.	If tokens were created by the previous step go to the
+//		next step, before the execution of the input
+// 3.	The tokens are no longer needed it's time to free them
 void	manage_tokens(char *input)
 {
 	t_group	*all_tokens;
@@ -43,6 +52,10 @@ void	manage_tokens(char *input)
 	}
 }
 
+// While the shell is running the shell wait instructions
+// 1. get (the instructions), input.
+// 2. analyze and execute the (instructions) input.
+// 3. Free the old instructions, to make place for the new ones
 void	manage_user_input(void)
 {
 	char	*input;
@@ -53,6 +66,10 @@ void	manage_user_input(void)
 	input = NULL;
 }
 
+// If the number of argument is correct, launch the shell.
+// 1. Create the environement of the shell
+// 2. Initialize all the necessary parameter of the shell
+// 3. The shell is ready to receive input from the user
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_env	env;

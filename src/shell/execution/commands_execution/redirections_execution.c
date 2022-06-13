@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_execution.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:46:21 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 20:54:32 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/06 12:26:01 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,14 @@ void	input_redirection(t_command *cmd)
 	if (cmd->input == NULL)
 		return ;
 	replace_input(cmd);
+}
+
+int	create_temporary_file(void)
+{
+	int	fd;
+
+	fd = open(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (fd == -1)
+		write_error(NULL, NULL, NULL);
+	return (fd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:45:38 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 18:27:26 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/07 14:07:40 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,12 @@ t_command	**create_commands(t_group *token_group)
 	}
 	all_commands[i] = NULL;
 	handle_here_doc(all_commands);
+	g_data.all_commands = all_commands;
 	return (all_commands);
 }
 
+// Now that the token contain their roles we need to put them together 
+//	in commands separated by operators
 t_command	**shell_commands(t_group *all_tokens)
 {
 	expansion_arguments(all_tokens);

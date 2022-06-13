@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:47:40 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 18:24:43 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/06 10:52:46 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,6 @@ void	export_with_args(t_command *cmd, t_env *env)
 
 void	ft_export(t_env *env, t_list *list, t_command *cmd)
 {
-	int	i;
-
-	i = 0;
 	if (ft_tablen(cmd->args) == 1)
 	{
 		while (list != NULL)

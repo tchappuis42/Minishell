@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:49:34 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 22:28:25 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/06 12:22:47 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ char	*get_user_input(void)
 	if (tmp == NULL)
 	{
 		printf("exit\n");
-		//fonction qui free
 		exit(EXIT_SUCCESS);
 	}
 	add_history(tmp);
 	input = delete_border_ifs(tmp);
+	g_data.input = input;
 	return (input);
 }

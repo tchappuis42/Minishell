@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_dollar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 17:07:10 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/05 21:36:24 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/06 12:06:55 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ static char	*ft_replace_dollar(char *arg, int i, t_env *env, int exit_s)
 	char	*end;
 	char	*retenv;
 	char	*ret;
-	char	*exit_status;
 
-	exit_status = NULL;
 	ret = NULL;
 	end = ft_end(arg, i + 1);
 	if (arg[i + 1] == '?')

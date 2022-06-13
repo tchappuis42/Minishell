@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:47:49 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 18:06:58 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/06 13:17:33 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_envfree(t_list *env, char *args)
 			lastenv->next = env->next;
 			free(env->content);
 			free(env);
+			env = NULL;
 			return ;
 		}
 		if (i == 1)

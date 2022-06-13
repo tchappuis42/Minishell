@@ -3,24 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   operators_execution.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:46:34 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/05 20:34:29 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/07 14:52:54 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution/execution.h"
 
-int	pipe_behaviour(t_tree *node)
+void	first_pipe(int *pid, t_tree *node)
 {
-	int	pid[2];
-	int	status;
-
-	node->fd = malloc(sizeof(int) * 2);
-	pipe(node->fd);
-	signal(SIGINT, SIG_IGN);
-	pid[0] = fork();
 	if (pid[0] == 0)
 	{
 		child(node, node->left, LEFT);
@@ -31,6 +24,18 @@ int	pipe_behaviour(t_tree *node)
 		g_data.last_pid = pid[0];
 		close(node->fd[1]);
 	}
+}
+
+int	pipe_behaviour(t_tree *node)
+{
+	int	pid[2];
+	int	status;
+
+	node->fd = malloc(sizeof(int) * 2);
+	pipe(node->fd);
+	signal(SIGINT, SIG_IGN);
+	pid[0] = fork();
+	first_pipe(pid, node);
 	pid[1] = fork();
 	if (pid[1] == 0)
 	{
