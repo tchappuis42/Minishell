@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_tree.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 21:47:46 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/05 21:48:52 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/06 14:55:26 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 // define:
 # define RIGHT 1
 # define LEFT 2
-# include "minishell.h"
+# include "execution/command.h"
+# include  "parsing/tokens.h"
 // structures
 typedef struct s_tree
 {

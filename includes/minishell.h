@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 21:44:20 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/05 22:31:04 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/06 14:56:39 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # include <sys/wait.h>
 
 // headers:
-# include	"../libft/libft.h"
+# include	"libft.h"
 # include	"parsing/tokens.h"
 # include	"execution/command.h"
+# include	"execution/binary_tree.h"
 # include	"sub_system/error.h"
 # include	"environment/env.h"
 
@@ -44,6 +45,10 @@ struct s_data
 	t_here_doc		*here_doc;
 	int				last_pid;
 	t_env			*env;
+	char			*input;
+	t_group			*all_tokens;
+	t_command		**all_commands;
+	t_tree			*binary_tree;
 }g_data;
 
 # define RUNNING 1
@@ -51,6 +56,9 @@ struct s_data
 # define OUT 1
 # define TMP_FILE	"/tmp/minishell_temporary_file"
 // prototypes:
+int			create_temporary_file(void);
+void		clean_shell(void);
+void		clean_tree(t_tree *node);
 void		input_redirection(t_command *cmd);
 void		output_redirection(t_command *cmd);
 int			ft_checkequal(char **args);
