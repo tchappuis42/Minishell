@@ -8,7 +8,7 @@ OBJ_DIR		:= 	build/
 INC_DIR		:= 	includes/
 
 ##		THE LIBFT			##
-LIBFT_HEADER	:=	./libft
+LIBFT_HEADER	:=	./libft/includes
 LIBFT_DIRECTORY :=	./libft
 LIBFT			:=	$(LIBFT_DIRECTORY)/libft.a
 
@@ -131,11 +131,11 @@ $(NAME): $(LIBFT) $(SRCS) $(OBJS)
 		@printf " $(READLIB) $(RESET)\n"
 		@printf "$(GREEN)$(NAME) sucessfully created ! $(RESET)\n"
 clean:
-		@printf "\n $(RED)removing: $(RESET) $(OBJ_DIR)\n$(RESET)"
+		@printf "\n $(RED)removing:\n 		$(RESET) $(NAME) *.o\n$(RESET)"
 		@rm -rf $(OBJ_DIR)
 		@make -C $(LIBFT_DIRECTORY) clean
 fclean: clean
-		@printf "\n $(RED)removing: $(RESET) $(NAME)\n"
+		@printf "		$(RESET) $(NAME)\n"
 		@make -C $(LIBFT_DIRECTORY) clean
 		@rm -rf $(NAME)
 		
