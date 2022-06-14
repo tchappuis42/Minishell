@@ -18,7 +18,7 @@ READLIB := -lreadline -L $(HOME)/.brew/opt/readline/lib
 # -lreadline -L $(HOME)/.brew/opt/readline/lib
 # -lreadline -L /opt/homebrew/opt/readline/lib -I .brew/opt/readline/include
 LIBRAIRIES := -lft -L$(LIBFT_DIRECTORY) $(READLIB)
-CFLAGS := -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS := -Wall -Wextra -Werror
 
 ##		INCLUDES			##
 CFLAGS	+= -I$(INC_DIR) -I$(LIBFT_HEADER)
@@ -136,7 +136,7 @@ clean:
 		@make -C $(LIBFT_DIRECTORY) clean
 fclean: clean
 		@printf "		$(RESET) $(NAME)\n"
-		@make -C $(LIBFT_DIRECTORY) clean
+		@make -C $(LIBFT_DIRECTORY) fclean
 		@rm -rf $(NAME)
 		
 
