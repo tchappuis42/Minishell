@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_base_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 20:12:30 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/13 15:23:49 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/14 14:12:20 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ char	*find_path(t_list *list, char *arg)
 
 	if (access(arg, F_OK) != -1)
 	{
-		if (ft_strncmp(arg, "./", 2) == 0)
+		if (ft_strncmp(arg, "./", 2) == 0
+			|| ft_strncmp(arg, "/", 1) == 0)
 			return (arg);
 		return (NULL);
 	}

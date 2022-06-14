@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:32:32 by tchappui          #+#    #+#             */
-/*   Updated: 2022/06/07 15:33:07 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/14 13:22:51 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,12 @@ void	manage_user_input(void)
 	char	*input;
 
 	input = get_user_input();
-	manage_tokens(input);
-	free(input);
-	input = NULL;
+	if (input != NULL)
+	{
+		manage_tokens(input);
+		free(input);
+		input = NULL;
+	}
 }
 
 // If the number of argument is correct, launch the shell.

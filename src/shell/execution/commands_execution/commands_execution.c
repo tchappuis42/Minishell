@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_execution.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchappui <tchappui@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: tweimer <tweimer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 13:46:52 by tweimer           #+#    #+#             */
-/*   Updated: 2022/06/07 15:29:04 by tchappui         ###   ########.fr       */
+/*   Updated: 2022/06/14 14:41:00 by tweimer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,14 @@ void	execute_builtin(t_tree *node, int ok)
 	else if (ok == CMD_PWD)
 		ft_pwd(node->cmd);
 	else if (ok == CMD_EXIT)
-		ft_exit(node->cmd);
+	{
+		if (node != NULL && node->previous != NULL
+			&& node->previous->token != NULL
+			&& node->previous->token->type == PIPE)
+			ft_exit(node->cmd, NO);
+		else
+			ft_exit(node->cmd, OK);
+	}
 	else if (ok == CMD_EXPORT)
 		ft_export(g_data.env, g_data.env->list, node->cmd);
 	else if (ok == CMD_UNSET)
@@ -95,6 +102,8 @@ void	shell_execution(t_group *all_token, t_command **all_command)
 {
 	t_tree	*root;
 
+	if (all_command == NULL)
+		return ;
 	root = binary_tree(all_token, all_command);
 	g_data.binary_tree = root;
 	manage_node_execution(root);
